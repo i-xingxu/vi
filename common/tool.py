@@ -3,8 +3,8 @@ import time
 import xlrd
 import os
 import glob
-from ..common import conf
-from ..common import logoutput
+from common import conf
+from common import logoutput
 
 class Time():
     '''

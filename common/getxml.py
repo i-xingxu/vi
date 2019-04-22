@@ -1,7 +1,7 @@
 # coding=utf-8
 import xml.etree.cElementTree
-from ..common import  conf
-from ..common import logoutput
+from common import  conf
+from common import logoutput
 class XmlOperation():
     """
     操作Xml文件

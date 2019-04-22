@@ -1,8 +1,8 @@
 # coding=utf-8
 from appium import webdriver as appwebdriver
-from ..common import conf
-from ..common import tool
-from ..common import logoutput
+from common import conf
+from common import tool
+from common import logoutput
 import time
 import os
 from selenium.webdriver.support.ui import WebDriverWait
