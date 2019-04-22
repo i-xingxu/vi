@@ -1,6 +1,6 @@
 # coding = utf-8
 import logging,os
-from common import tool,conf
+from ..common import tool,conf
 
 
 class Logger():
