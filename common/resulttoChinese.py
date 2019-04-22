@@ -3,7 +3,7 @@ import glob
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from common import logoutput
+from ..common import logoutput
 
 class ResultChinese():
 
