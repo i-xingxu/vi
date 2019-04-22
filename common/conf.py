@@ -22,7 +22,7 @@ class Conf():
     使用继承后的配置文件类
     '''
 
-    def __init__(self,path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\conf"):
+    def __init__(self,path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))+"\\conf"):
         CONF_FILE_NAME="test.conf"
         self.path=path+"\\"+CONF_FILE_NAME
 
