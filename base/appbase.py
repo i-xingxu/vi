@@ -254,6 +254,10 @@ class App():
 
     def back(self):
 
+        '''
+        返回安静
+        :return:
+        '''
         return self.driver.back()
 
 
