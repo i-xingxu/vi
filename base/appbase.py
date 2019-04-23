@@ -252,6 +252,11 @@ class App():
         return self.driver.contexts
 
 
+    def back(self):
+
+        return self.driver.back()
+
+
 
 # class Web():
 #     def __init__(self, path, driver):
