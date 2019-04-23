@@ -258,7 +258,9 @@ class App():
         返回安静
         :return:
         '''
+        self.lg.info("返回")
         return self.driver.back()
+
 
 
 
