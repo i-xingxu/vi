@@ -37,6 +37,7 @@ class SetUp():
                 "appPackage":info["appPackage"],
                 "appActivity":info["appActivity"],
                 "automationName":info["automationName"],
+                'newCommandTimeout': info["newCommandTimeout"],
                 "chromedriverExecutable": info["chromedriverExecutable"],
 
             }
