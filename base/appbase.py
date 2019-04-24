@@ -135,7 +135,7 @@ class App():
                 self.lg.info("元素出现：%s" % elementinfo["desc"])
                 return True
         except Exception as e:
-            self.lg.error(e)
+            # self.lg.error(e)
             self.lg.error("元素未出现：%s" % elementinfo["desc"])
             return False
 
@@ -228,14 +228,14 @@ class App():
             self.lg.error(e)
             self.lg.error("无法确定app是否安装")
 
-    def send_keys(self, elmentinfo, data):
+    def send_keys(self, elmentinfo, data,waittime=1):
         '''
         输入内容
         :param elmentinfo:
         :param data:
         :return:
         '''
-
+        time.sleep(waittime)
         try:
             self.lg.info("输入内容：%s" % data)
             self.get_element(elmentinfo).send_keys(data)
@@ -261,6 +261,35 @@ class App():
         '''
         self.lg.info("返回")
         return self.driver.back()
+
+    def is_exist(self,elementinfo,waittime=1):
+
+        '''
+        判断元素是否存在，存在返回True，不存在返回False
+        :param elementinfo:
+        :param waittime:
+        :return:
+        '''
+        time.sleep(waittime)
+        try:
+            if elementinfo["type"] == "uiautomator":
+                element = self.driver.find_element_by_android_uiautomator(elementinfo["value"])
+                if element == None:
+                    self.lg.info("定位元素失败:%s" % elementinfo["desc"])
+                    # self.driver.quit()
+                else:
+                    return True
+            else:
+                element = self.driver.find_element(elementinfo["type"], elementinfo["value"])
+                if element == None:
+                    self.lg.info("定位元素失败:%s" % elementinfo["desc"])
+                    # self.driver.quit()
+                else:
+                    return True
+        except Exception as e:
+            # self.lg.error(e)
+            self.lg.error("“{}”元素不存在".format(elementinfo["desc"]))
+            return False
 
 
 
