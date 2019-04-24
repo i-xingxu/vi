@@ -256,7 +256,7 @@ class App():
     def back(self):
 
         '''
-        返回安静
+        返回上一页面
         :return:
         '''
         self.lg.info("返回")
