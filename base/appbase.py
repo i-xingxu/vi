@@ -291,6 +291,13 @@ class App():
             self.lg.error("“{}”元素不存在".format(elementinfo["desc"]))
             return False
 
+    def keyevent(self,keycode):
+
+        '''
+         物理按键
+        :return:
+        '''
+        return self.driver.keyevent(keycode)
 
 
 
