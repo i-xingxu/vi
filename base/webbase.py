@@ -292,3 +292,10 @@ class Web():
             return False
 
 
+    def maximize_window(self):
+
+        '''
+        窗口最大化
+        :return:
+        '''
+        return self.driver.maximize_window()
