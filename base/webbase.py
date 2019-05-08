@@ -298,4 +298,5 @@ class Web():
         窗口最大化
         :return:
         '''
+        self.lg.info("最大化窗口")
         return self.driver.maximize_window()
