@@ -299,6 +299,17 @@ class App():
         '''
         return self.driver.keyevent(keycode)
 
+    def scroll(self,el1,el2):
+
+        '''
+        滚动页面
+        :param el1:
+        :param el2:
+        :return:
+        '''
+        return self.driver.scroll(el1,el2)
+
+
 
 
 # class Web():
