@@ -3,8 +3,8 @@ import xlrd
 import os
 
 os.chdir(os.path.split(os.path.realpath(__file__))[0])
-from common import mysql
-from common import logoutput
+from vi.common import mysql
+from vi.common import logoutput
 
 
 class Upload():
