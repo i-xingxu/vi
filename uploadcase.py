@@ -1,8 +1,9 @@
 # ucoding=utf-8
 import xlrd
-import os
+import os,sys
 
-os.chdir(os.path.split(os.path.realpath(__file__))[0])
+# os.chdir(os.path.split(os.path.realpath(__file__))[0])
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from vi.common import mysql
 from vi.common import logoutput
 
