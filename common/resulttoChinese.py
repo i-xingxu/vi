@@ -2,8 +2,8 @@
 import glob
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from ..common import logoutput
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from vi.common import logoutput
 
 class ResultChinese():
 
@@ -11,7 +11,7 @@ class ResultChinese():
         self.lg=logoutput.Logger()
 
     def get_report_dir(self):
-        pyfiles=glob.glob(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\report\\*.xml")
+        pyfiles=glob.glob(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))+"\\report\\*.xml")
         if not pyfiles:
             return False
         else:
