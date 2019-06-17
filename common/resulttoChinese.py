@@ -12,8 +12,9 @@ class ResultChinese():
 
     def get_report_dir(self):
         dir=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.lg.info(dir)
+        self.lg.info(dir+"\\report\\")
         pyfiles=glob.glob(dir+"\\report\\*.xml")
+        self.lg.info(pyfiles)
         if not pyfiles:
             return False
         else:
