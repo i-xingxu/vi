@@ -11,7 +11,9 @@ class ResultChinese():
         self.lg=logoutput.Logger()
 
     def get_report_dir(self):
-        pyfiles=glob.glob(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))+"\\report\\*.xml")
+        dir=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.lg.info(dir)
+        pyfiles=glob.glob(dir+"\\report\\*.xml")
         if not pyfiles:
             return False
         else:
