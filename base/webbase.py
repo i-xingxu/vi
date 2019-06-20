@@ -67,7 +67,7 @@ class SetUp():
                     option.add_argument('--disable-dev-shm-usage')
                     self.lg.info("无界面启动Chrome浏览器")
 
-                driver=webdriver.Chrome(chrome_options=option)
+                driver=webdriver.Chrome(options=option)
                 return driver
             else:
                 self.lg.error("未安装浏览器driver！")
@@ -181,6 +181,28 @@ class Web():
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
+
+
+    def get_full_screenshot(self):
+        '''
+        获取全屏截图
+        :return:
+        '''
+        try:
+            t = tool.Time()
+            picNam = t.get_now_time() + ".png"
+            self.lg.info("保存图片：%s" % picNam)
+            os.chdir(self.SCR_PATH)
+            scroll_width = self.driver.execute_script('return document.body.parentNode.scrollWidth')
+            scroll_height = self.driver.execute_script('return document.body.parentNode.scrollHeight')
+            self.driver.set_window_size(scroll_width, scroll_height)
+            self.driver.save_screenshot(picNam)
+            f = open(picNam,'rb').read()
+            allure.attach('This is a picture',f,allure.attach_type.PNG)
+        except Exception as e:
+            self.lg.error(e)
+            self.lg.error("获取截图失败！")
+
 
     def send_keys(self, elmentinfo, data):
         '''
