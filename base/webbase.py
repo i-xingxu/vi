@@ -177,7 +177,7 @@ class Web():
             os.chdir(self.SCR_PATH)
             self.driver.save_screenshot(picNam)
             f = open(picNam,'rb').read()
-            allure.attach('This is a picture',f,allure.attach_type.PNG)
+            allure.attach('This is a picture',f,allure.attachment_type.PNG)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
@@ -198,7 +198,7 @@ class Web():
             self.driver.set_window_size(scroll_width, scroll_height)
             self.driver.save_screenshot(picNam)
             f = open(picNam,'rb').read()
-            allure.attach('This is a picture',f,allure.attach_type.PNG)
+            allure.attach('This is a picture',f,allure.attachment_type.PNG)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
