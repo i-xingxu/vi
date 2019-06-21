@@ -176,8 +176,8 @@ class Web():
             self.lg.info("保存图片：%s" % picNam)
             os.chdir(self.SCR_PATH)
             self.driver.save_screenshot(picNam)
-            f = open(picNam,'rb').read()
-            allure.attach('This is a picture',f,allure.attachment_type.PNG)
+            # f = open(picNam,'rb').read()
+            allure.attach(self.SCR_PATH+'\\'+picNam,attachment_type=allure.attachment_type.PNG)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
