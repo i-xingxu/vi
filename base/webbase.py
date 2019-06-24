@@ -118,7 +118,7 @@ class Web():
         :param waittime:
         :return:
         '''
-        self.get_element(elementinfo)
+        # self.get_element(elementinfo)
         try:
             WebDriverWait(self.driver, waittime).until(
                 lambda x: x.find_element(elementinfo["type"], elementinfo["value"]))
