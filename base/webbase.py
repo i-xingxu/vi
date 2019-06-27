@@ -198,9 +198,11 @@ class Web():
             scroll_height = self.driver.execute_script('return document.body.parentNode.scrollHeight')
             self.driver.set_window_size(scroll_width, scroll_height)
             self.driver.save_screenshot(picNam)
+            imgBase=self.driver.get_screenshot_as_base64()
             # f = open(picNam,'rb').read()
             self.lg.info(self.SCR_PATH+'\\'+picNam)
-            allure.attach.file(self.SCR_PATH+'\\'+picNam,attachment_type=allure.attachment_type.PNG)
+            # allure.attach.file(self.SCR_PATH+'\\'+picNam,attachment_type=allure.attachment_type.PNG)
+            allure.attach('<head></head><body> <img src=\"{bs}\" /> </body>'.format(bs=imgBase), 'Attach with HTML type', allure.attachment_type.HTML)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
