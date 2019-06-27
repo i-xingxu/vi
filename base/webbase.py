@@ -178,7 +178,10 @@ class Web():
             self.driver.save_screenshot(picNam)
             # f = open(picNam,'rb').read()
             self.lg.info(self.SCR_PATH + '\\' + picNam)
-            allure.attach.file(self.SCR_PATH+'\\'+picNam,attachment_type=allure.attachment_type.PNG)
+            # allure.attach.file(self.SCR_PATH+'\\'+picNam,attachment_type=allure.attachment_type.PNG)
+            imgBase = self.driver.get_screenshot_as_base64()
+            allure.attach('<head></head><body> <img src=\"{bs}\" /> </body>'.format(bs=imgBase),
+                          'Attach with HTML type', allure.attachment_type.HTML)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
