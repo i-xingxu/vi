@@ -20,25 +20,12 @@ class SetUp():
         self.cf = conf.Conf()
 
     def web_setup(self,chromenum=1):
-        # """
-        # 通过配置文件的的配置来控制使用哪个浏览器
-        # 配置文件示例：
-        # [BrowserPath]
-        #     path=E:\Program Files\Mozilla Firefox\firefox.exe
-        #     profile= C:\Users\xingxu\AppData\Roaming\Mozilla\Firefox\Profiles\2okoudy8.default
-        #     chromprofile=--user-data-dir=C:\Users\xingxu\AppData\Local\Google\Chrome\User Data\
-        # [Browser]
-        #     browser=Chrome
-        #
-        # CONF_BRO_PATH：浏览器路径
-        # CONF_FIR_PATH_NAME：火狐路径
-        # CONF_FIR_PROFILE：火狐浏览器个人配置文件路径
-        # CONF_BROWSER：浏览器类型
-        # CONF_BRO_TYPE：浏览器类型项
-        # CONF_CHRO_PATH_NAME：Chrome浏览器个人配置文件路径
-        #
-        # :return:
-        # """
+        '''
+
+        :param chromenum: 使用多线程并行启动chrome时需要使用多个User Data文件夹，默认为1，即只使用一个User Data文件夹；为2时，需要在User Data文件夹同级目录复制一份，取名为User Data - 1
+        :return:
+        '''
+
 
         try:
             CONF_BRO_CONF="BrowserConfig"
@@ -57,34 +44,36 @@ class SetUp():
                 return driver
             elif browserType=="Chrome":
 
-                if int(chromenum) ==1:
-                    option = webdriver.ChromeOptions()
+                option = webdriver.ChromeOptions()
+                if int(chromenum)==1:
                     option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME])
-                    f=self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
-                    if f=="1":
-                        self.lg.info("显示Chrome浏览器界面")
-                    elif f=="0":
-                        option.add_argument('--headless')
-                        option.add_argument('--no-sandbox')
-                        option.add_argument('--disable-dev-shm-usage')
-                        self.lg.info("无界面启动Chrome浏览器")
-
-                    driver=webdriver.Chrome(options=option)
-                    return driver
                 elif int(chromenum)==2:
-                    option = webdriver.ChromeOptions()
-                    option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME]+" - 1")
-                    f = self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
-                    if f == "1":
-                        self.lg.info("显示Chrome浏览器界面")
-                    elif f == "0":
-                        option.add_argument('--headless')
-                        option.add_argument('--no-sandbox')
-                        option.add_argument('--disable-dev-shm-usage')
-                        self.lg.info("无界面启动Chrome浏览器")
+                    option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME] + " - 1")
+                f=self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
+                if f=="1":
+                    self.lg.info("显示Chrome浏览器界面")
+                elif f=="0":
+                    option.add_argument('--headless')
+                    option.add_argument('--no-sandbox')
+                    option.add_argument('--disable-dev-shm-usage')
+                    self.lg.info("无界面启动Chrome浏览器")
 
-                    driver = webdriver.Chrome(options=option)
-                    return driver
+                driver=webdriver.Chrome(options=option)
+                return driver
+                # elif int(chromenum)==2:
+                #     option = webdriver.ChromeOptions()
+                #     option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME]+" - 1")
+                #     f = self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
+                #     if f == "1":
+                #         self.lg.info("显示Chrome浏览器界面")
+                #     elif f == "0":
+                #         option.add_argument('--headless')
+                #         option.add_argument('--no-sandbox')
+                #         option.add_argument('--disable-dev-shm-usage')
+                #         self.lg.info("无界面启动Chrome浏览器")
+                #
+                #     driver = webdriver.Chrome(options=option)
+                #     return driver
 
 
             else:
