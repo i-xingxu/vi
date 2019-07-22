@@ -19,7 +19,7 @@ class SetUp():
         self.lg=logoutput.Logger()
         self.cf = conf.Conf()
 
-    def web_setup(self):
+    def web_setup(self,chromenum=1):
         # """
         # 通过配置文件的的配置来控制使用哪个浏览器
         # 配置文件示例：
@@ -56,19 +56,37 @@ class SetUp():
                 driver=webdriver.Firefox(firefox_binary=binary,firefox_profile=fp)
                 return driver
             elif browserType=="Chrome":
-                option = webdriver.ChromeOptions()
-                option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME])
-                f=self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
-                if f=="1":
-                    self.lg.info("显示Chrome浏览器界面")
-                elif f=="0":
-                    option.add_argument('--headless')
-                    option.add_argument('--no-sandbox')
-                    option.add_argument('--disable-dev-shm-usage')
-                    self.lg.info("无界面启动Chrome浏览器")
 
-                driver=webdriver.Chrome(options=option)
-                return driver
+                if int(chromenum) ==1:
+                    option = webdriver.ChromeOptions()
+                    option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME])
+                    f=self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
+                    if f=="1":
+                        self.lg.info("显示Chrome浏览器界面")
+                    elif f=="0":
+                        option.add_argument('--headless')
+                        option.add_argument('--no-sandbox')
+                        option.add_argument('--disable-dev-shm-usage')
+                        self.lg.info("无界面启动Chrome浏览器")
+
+                    driver=webdriver.Chrome(options=option)
+                    return driver
+                elif int(chromenum)==2:
+                    option = webdriver.ChromeOptions()
+                    option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME]+" - 1")
+                    f = self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
+                    if f == "1":
+                        self.lg.info("显示Chrome浏览器界面")
+                    elif f == "0":
+                        option.add_argument('--headless')
+                        option.add_argument('--no-sandbox')
+                        option.add_argument('--disable-dev-shm-usage')
+                        self.lg.info("无界面启动Chrome浏览器")
+
+                    driver = webdriver.Chrome(options=option)
+                    return driver
+
+
             else:
                 self.lg.error("未安装浏览器driver！")
 
