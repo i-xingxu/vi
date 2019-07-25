@@ -68,8 +68,8 @@ class Upload():
                 if type(data[j]) == float:
                     data[j] = int(data[j])
             # 判断每个单元格长度
-            if len(str(data[0])) < 11 and len(str(data[1])) < 20 and len(str(data[2])) < 100 and len(
-                    str(data[3])) < 100:
+            if len(str(data[0])) < 11 and len(str(data[1])) < 20 and len(str(data[2])) < 500 and len(
+                    str(data[3])) < 500:
                 # 生成器
                 yield data
             else:
