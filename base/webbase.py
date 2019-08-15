@@ -56,6 +56,7 @@ class SetUp():
                     option.add_argument('--headless')
                     option.add_argument('--no-sandbox')
                     option.add_argument('--disable-dev-shm-usage')
+                    option.add_experimental_option('excludeSwitches', ['enable-automation'])
                     self.lg.info("无界面启动Chrome浏览器")
 
                 driver=webdriver.Chrome(options=option)
