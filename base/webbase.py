@@ -59,7 +59,7 @@ class SetUp():
                 elif int(chromenum) == 2:
                     option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME] + " - 1")
                 f = self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
-                # option.add_experimental_option('excludeSwitches', ['enable-automation'])
+                option.add_experimental_option('excludeSwitches', ['enable-automation'])
                 if f == "1":
                     self.lg.info("显示Chrome浏览器界面")
                 elif f == "0":
