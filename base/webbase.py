@@ -11,6 +11,7 @@ from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver import Chrome
 from selenium.webdriver import ChromeOptions
 
+
 class SetUp():
     '''
     appbase中setup类，用来启动app，返回一个driver对象
@@ -18,50 +19,56 @@ class SetUp():
 
     def __init__(self):
         # self.CONF_PATH = CONF_PATH
-        self.lg=logoutput.Logger()
+        self.lg = logoutput.Logger()
         self.cf = conf.Conf()
 
-    def web_setup(self,chromenum=1):
+    def web_setup(self, chromenum=1):
         '''
 
         :param chromenum: 使用多线程并行启动chrome时需要使用多个User Data文件夹，默认为1，即只使用一个User Data文件夹；为2时，需要在User Data文件夹同级目录复制一份，取名为User Data - 1
         :return:
         '''
 
-
         try:
-            CONF_BRO_CONF="BrowserConfig"
-            CONF_FIR_PATH_NAME="firefoxpath"
-            CONF_FIR_PROFILE="firefoxprofile"
-            CONF_BROWSER="Browser"
-            CONF_BRO_TYPE="browser"
-            CONF_CHRO_PATH_NAME="chromprofile"
-            CONF_CHRO_ISDISPLAY="chromeisdisplay"
+            CONF_BRO_CONF = "BrowserConfig"
+            CONF_FIR_PATH_NAME = "firefoxpath"
+            CONF_FIR_PROFILE = "firefoxprofile"
+            CONF_BROWSER = "Browser"
+            CONF_BRO_TYPE = "browser"
+            CONF_CHRO_PATH_NAME = "chromprofile"
+            CONF_CHRO_ISDISPLAY = "chromeisdisplay"
+            CONF_CHRO_PROXY = 'ChromeProxy'
+            CONF_CHRO_PROXY_TYPE = 'type'
+            CONF_CHRO_PROXY_INFO = 'proxy'
 
-            browserType=self.cf.get_conf_data(CONF_BROWSER)[CONF_BRO_TYPE]
-            if browserType=="Firefox":
+            browserType = self.cf.get_conf_data(CONF_BROWSER)[CONF_BRO_TYPE]
+            if browserType == "Firefox":
                 binary = FirefoxBinary(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_FIR_PATH_NAME])
-                fp=webdriver.FirefoxProfile(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_FIR_PROFILE])
-                driver=webdriver.Firefox(firefox_binary=binary,firefox_profile=fp)
+                fp = webdriver.FirefoxProfile(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_FIR_PROFILE])
+                driver = webdriver.Firefox(firefox_binary=binary, firefox_profile=fp)
                 return driver
-            elif browserType=="Chrome":
+            elif browserType == "Chrome":
 
                 option = ChromeOptions()
-                if int(chromenum)==1:
+                proxyType = self.cf.get_conf_data(CONF_CHRO_PROXY)[CONF_CHRO_PROXY_TYPE]
+                proxyInfo = self.cf.get_conf_data(CONF_CHRO_PROXY)[CONF_CHRO_PROXY_INFO]
+                if int(proxyType) == 1:
+                    option.add_argument(proxyInfo)
+                if int(chromenum) == 1:
                     option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME])
-                elif int(chromenum)==2:
+                elif int(chromenum) == 2:
                     option.add_argument(self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_PATH_NAME] + " - 1")
-                f=self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
+                f = self.cf.get_conf_data(CONF_BRO_CONF)[CONF_CHRO_ISDISPLAY]
                 # option.add_experimental_option('excludeSwitches', ['enable-automation'])
-                if f=="1":
+                if f == "1":
                     self.lg.info("显示Chrome浏览器界面")
-                elif f=="0":
+                elif f == "0":
                     option.add_argument('--headless')
                     option.add_argument('--no-sandbox')
                     option.add_argument('--disable-dev-shm-usage')
                     self.lg.info("无界面启动Chrome浏览器")
 
-                driver=Chrome(options=option)
+                driver = Chrome(options=option)
                 return driver
                 # elif int(chromenum)==2:
                 #     option = webdriver.ChromeOptions()
@@ -84,14 +91,16 @@ class SetUp():
 
         except Exception as e:
             self.lg.error(e)
+
+
 class Web():
-    def __init__(self,driver):
-        CONF_NAME_SCRPATH="ScreenShotPath"
-        CONF_NAME_PATH="path"
-        self.lg=logoutput.Logger()
+    def __init__(self, driver):
+        CONF_NAME_SCRPATH = "ScreenShotPath"
+        CONF_NAME_PATH = "path"
+        self.lg = logoutput.Logger()
         self.driver = driver
-        cf=conf.Conf()
-        self.SCR_PATH = cf.get_conf_data( CONF_NAME_SCRPATH)[CONF_NAME_PATH]
+        cf = conf.Conf()
+        self.SCR_PATH = cf.get_conf_data(CONF_NAME_SCRPATH)[CONF_NAME_PATH]
 
     def get_element(self, elementinfo, waittime=1):
         '''
@@ -140,13 +149,13 @@ class Web():
             self.get_screenshot()
             return False
 
-    def click(self, elementinfo,waittime=1):
+    def click(self, elementinfo, waittime=1):
         '''
         点击操作
         :param elementinfo:
         :return:
         '''
-        e = self.get_element(elementinfo,waittime)
+        e = self.get_element(elementinfo, waittime)
         try:
             e.click()
             self.lg.info("点击：%s" % elementinfo["desc"])
@@ -188,14 +197,13 @@ class Web():
             self.driver.save_screenshot(picNam)
             # f = open(picNam,'rb').read()
             self.lg.info(self.SCR_PATH + '\\' + picNam)
-            allure.attach.file(self.SCR_PATH+'\\'+picNam,attachment_type=allure.attachment_type.PNG)
+            allure.attach.file(self.SCR_PATH + '\\' + picNam, attachment_type=allure.attachment_type.PNG)
             # imgBase = self.driver.get_screenshot_as_base64()
             # allure.attach('<head></head><body> <img src=\"{bs}\" /> </body>'.format(bs=imgBase),
-                          # 'Attach with HTML type', allure.attachment_type.HTML)
+            # 'Attach with HTML type', allure.attachment_type.HTML)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
-
 
     def get_full_screenshot(self):
         '''
@@ -213,13 +221,12 @@ class Web():
             self.driver.save_screenshot(picNam)
             # imgBase=self.driver.get_screenshot_as_base64()
             # f = open(picNam,'rb').read()
-            self.lg.info(self.SCR_PATH+'\\'+picNam)
-            allure.attach.file(self.SCR_PATH+'\\'+picNam,attachment_type=allure.attachment_type.PNG)
+            self.lg.info(self.SCR_PATH + '\\' + picNam)
+            allure.attach.file(self.SCR_PATH + '\\' + picNam, attachment_type=allure.attachment_type.PNG)
             # allure.attach('<head></head><body> <img src=\"{bs}\" /> </body>'.format(bs=imgBase), 'Attach with HTML type', allure.attachment_type.HTML)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("获取截图失败！")
-
 
     def send_keys(self, elmentinfo, data):
         '''
@@ -235,7 +242,8 @@ class Web():
         except Exception as e:
             self.lg.error(e)
             self.lg.error("输入内容失败！")
-    def get_url(self,url):
+
+    def get_url(self, url):
         '''
         获取当前页面的url
         :param url:
@@ -243,27 +251,26 @@ class Web():
         '''
         try:
             self.driver.set_page_load_timeout(time_to_wait=30)
-            self.lg.info("打开url:%s"%url)
+            self.lg.info("打开url:%s" % url)
             self.driver.get(url)
         except Exception as e:
             self.lg.error(e)
             self.lg.error("打开url失败！")
             self.get_screenshot()
 
-    def get_text(self,elementinfo,waittime=1):
+    def get_text(self, elementinfo, waittime=1):
         '''
         获取页面的值
         '''
         try:
             self.lg.info("获取：“{}”的值".format(elementinfo["desc"]))
-            return self.get_element(elementinfo,waittime).text
+            return self.get_element(elementinfo, waittime).text
 
         except Exception as e:
             self.lg.error(e)
             self.lg.error("未获取到：“{}”的值".format(elementinfo["desc"]))
 
-
-    def get_attribute(self,elementinfo,attribute,waittime=1):
+    def get_attribute(self, elementinfo, attribute, waittime=1):
         '''
 
         :param elementinfo:
@@ -273,17 +280,17 @@ class Web():
         '''
         try:
             self.lg.info("获取：“{}”的属性值".format(elementinfo["desc"]))
-            return  self.get_element(elementinfo,waittime).get_attribute(attribute)
+            return self.get_element(elementinfo, waittime).get_attribute(attribute)
         except Ellipsis as e:
             self.lg.error("未获取到：“{}”的属性值".format(elementinfo["desc"]))
 
-    def scroll_page(self,pagesize="bottom"):
+    def scroll_page(self, pagesize="bottom"):
         '''
         滚动页面
         默认滚动到最底部，可以填写滚动距离数字
         :return:
         '''
-        if pagesize=="bottom":
+        if pagesize == "bottom":
 
             try:
                 self.lg.info("滚动页面")
@@ -295,12 +302,11 @@ class Web():
         else:
             try:
                 self.lg.info("滚动页面")
-                js="var q=document.documentElement.scrollTpo="+str(pagesize)
+                js = "var q=document.documentElement.scrollTpo=" + str(pagesize)
                 # js = " window.scrollTo(0,document.body.scrollHeight)"
                 self.driver.execute_script(js)
             except Ellipsis as e:
                 self.lg.error("滚动页面失败")
-
 
     def get_page_source(self):
         '''
@@ -309,11 +315,11 @@ class Web():
         '''
         try:
             self.lg.info("获取页面信息")
-            return  self.driver.page_source
+            return self.driver.page_source
         except Ellipsis as e:
             self.lg.error(e)
 
-    def is_exist(self,elementinfo,waittime=1):
+    def is_exist(self, elementinfo, waittime=1):
         '''
         判断元素是否存在，存在返回True，不存在返回False
         :param elementinfo:
@@ -323,13 +329,12 @@ class Web():
 
         try:
             time.sleep(waittime)
-            q=self.driver.find_element(elementinfo["type"], elementinfo["value"])
+            q = self.driver.find_element(elementinfo["type"], elementinfo["value"])
             self.lg.info("“{}”元素存在".format(elementinfo["desc"]))
-            return  True
+            return True
         except:
             self.lg.info("“{}”元素不存在".format(elementinfo["desc"]))
             return False
-
 
     def maximize_window(self):
 
