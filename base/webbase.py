@@ -10,6 +10,7 @@ import allure
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver import Chrome
 from selenium.webdriver import ChromeOptions
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class SetUp():
@@ -344,3 +345,16 @@ class Web():
         '''
         self.lg.info("最大化窗口")
         return self.driver.maximize_window()
+
+    def move_to_element(self, elementinfo, waittime=1):
+        '''
+        鼠标移动到某个元素
+        :param elementionf:
+        :param waittime:
+        :return:
+        '''
+
+        time.sleep(waittime)
+        dr=self.driver.find_element(elementinfo["type"], elementinfo["value"])
+        ActionChains(self.driver).move_to_element(dr).perform()
+
